@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.gxht.app.yjdPlatform.merchant.dao.MerchantDao">
+    <select id="findByBelongIdAndMerchantId" resultType="map">
+      SELECT * FROM app_hpandmer where belongId=#{belongId} AND merchantId=#{merchantId }
+    </select>
+</mapper>

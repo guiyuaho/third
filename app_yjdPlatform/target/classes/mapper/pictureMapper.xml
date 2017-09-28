@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.gxht.app.yjdPlatform.pictures.dao.PicturesDao">
+    <!-- 首页图片之轮播竖排 -->
+    <select id="findPictures" resultType="map" parameterType="java.lang.String">
+        SELECT img,id,type,title,content from app_picture WHERE type="竖排" OR type ="横排"
+    </select>
+    <select id="findLunboPictures" resultType="map">
+        SELECT img from app_picture WHERE type="轮播"
+    </select>
+    <select id="findRegistPicture" resultType="map">
+        SELECT * from app_picture WHERE type="注册"
+    </select>
+    <select id="findPictureByBelongId" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT path FROM app_picture WHERE belongId=#{id }
+    </select>
+    <!-- 根据数据库id查找对应的title -->
+    <select id="findTileByPictureId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT title FROM app_picture WHERE id=#{pictureId }
+    </select>
+    <select id="findContactByPictureId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT contact FROM app_picture WHERE id=#{pictureId }
+    </select>
+    <select id="findPictureById" parameterType="java.lang.Integer" resultType="map">
+        SELECT id,title,content,price FROM app_picture WHERE id=#{pictureId }
+    </select>
+    <select id="findPageTwoImg" resultType="map">
+        SELECT img,id,price,type,status from app_picture WHERE type="headImg" OR type="jiuData"
+    </select>
+
+    <!-- 模糊查询 存在bug 小程序需要将地址发送过来 app需要从session里面取出地址-->
+    <select id="fuzzyQuery" resultType="map">
+        SELECT p.id,p.img,p.title,p.content FROM app_picture p,hpandmer h WHERE p.id=h.merchantId  and h.hengpaiId=#{id} AND p.title LIKE CONCAT(CONCAT('%',#{title}), '%')
+    </select>
+
+
+    <select id="findMerchantByIdAndCityCode" parameterType="java.lang.Integer" resultType="map">
+        SELECT id,img,title,content FROM app_picture WHERE  citycode=#{citycode}
+    </select>
+
+    <!-- 此处需要优化 -->
+    <select id="findClientByPhone" parameterType="java.lang.String" resultType="map">
+      SELECT * FROM merchantcontact WHERE phone=#{phone }
+    </select>
+
+    <select id="findClientQueryTimes" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT times FROM client WHERE id=#{clientId}
+    </select>
+    <update id="updateClientQueryTimes">
+      UPDATE client SET times=#{times} WHERE id=#{clientId}
+    </update>
+</mapper>
